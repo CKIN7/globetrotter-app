@@ -4,40 +4,101 @@ import { useState, useEffect } from 'react';
 import DestinationAutocomplete from '@/app/components/common/DestinationAutocomplete';
 import FlightClassSelector from '@/app/components/common/FlightClassSelector';
 import Button from '@/app/components/ui/Button';
+import { FlightData, TravelInfo } from '@/app/lib/types';
 
 export default function Step1TravelInfo({
   data,
   onUpdate,
   onNext,
 }: {
-  data: any;
-  onUpdate: (updates: any) => void;
+  data: TravelInfo;
+  onUpdate: (updates: Partial<TravelInfo>) => void;
   onNext: () => void;
 }) {
   const [departureDate, setDepartureDate] = useState<Date | null>(
     data.departureDate
   );
   const [returnDate, setReturnDate] = useState<Date | null>(data.returnDate);
+  const [destinationSuggestions, setDestinationSuggestions] = useState<
+    FlightData[]
+  >([]);
   const [isDestinationValid, setIsDestinationValid] = useState(false);
   const [showDestinationError, setShowDestinationError] = useState(false);
+  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+  const [flightPrices, setFlightPrices] = useState<FlightData[]>([]);
+  const [isLoadingPrices, setIsLoadingPrices] = useState(false);
+
+  const fetchSuggestions = async (query: string) => {
+    if (query.length > 2) {
+      setIsLoadingSuggestions(true);
+      try {
+        const response = await fetch(`/api/flights?query=${query}`);
+        const flightData: FlightData[] = await response.json();
+        setDestinationSuggestions(flightData);
+        // Optionally, you could also fetch prices here if your API returns them together
+        setFlightPrices(flightData);
+      } catch (error) {
+        console.error('Error fetching suggestions:', error);
+        setDestinationSuggestions([]);
+      } finally {
+        setIsLoadingSuggestions(false);
+      }
+    } else {
+      setDestinationSuggestions([]);
+    }
+  };
+
+  const fetchFlightPrices = async (destination: string) => {
+    if (destination) {
+      setIsLoadingPrices(true);
+      try {
+        const response = await fetch(
+          `/api/flights/prices?destination=${destination}`
+        );
+        const pricesData: FlightData[] = await response.json();
+        setFlightPrices(pricesData);
+      } catch (error) {
+        console.error('Error fetching flight prices:', error);
+        setFlightPrices([]);
+      } finally {
+        setIsLoadingPrices(false);
+      }
+    } else {
+      setFlightPrices([]);
+    }
+  };
+
+  useEffect(() => {
+    if (data.destination) {
+      fetchSuggestions(data.destination);
+      fetchFlightPrices(data.destination); // Fetch prices when destination changes
+    } else {
+      setFlightPrices([]); // Clear prices if no destination
+    }
+  }, [data.destination]);
+
+  const handleDestinationChange = (value: string) => {
+    onUpdate({ destination: value });
+    setShowDestinationError(false);
+    fetchSuggestions(value);
+    fetchFlightPrices(value); // Fetch prices when destination input changes
+  };
+
+  const handleDestinationValidationChange = (isValid: boolean) => {
+    setIsDestinationValid(isValid);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validación del destino
     if (!data.destination?.trim()) {
       setShowDestinationError(true);
       return;
     }
 
-    onUpdate({ departureDate, returnDate });
+    onUpdate({ departureDate, returnDate, flightClass: data.flightClass }); // Ensure flightClass is included
     onNext();
   };
-
-  // Opcional: validación en tiempo real
-  useEffect(() => {
-    setIsDestinationValid(!!data.destination?.trim());
-  }, [data.destination]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -58,10 +119,11 @@ export default function Step1TravelInfo({
             </label>
             <DestinationAutocomplete
               value={data.destination}
-              onChange={(value) => {
-                onUpdate({ destination: value });
-                setShowDestinationError(false); // Resetear error al cambiar
-              }}
+              onChange={handleDestinationChange}
+              suggestions={destinationSuggestions}
+              isLoading={isLoadingSuggestions}
+              onValidationChange={handleDestinationValidationChange}
+              required
             />
             {showDestinationError && (
               <p className="mt-1 text-sm text-red-600">
@@ -117,14 +179,14 @@ export default function Step1TravelInfo({
           <FlightClassSelector
             value={data.flightClass}
             onChange={(value) => onUpdate({ flightClass: value })}
+            flightPrices={flightPrices}
           />
         </div>
 
         <div className="flex justify-end pt-4">
           <Button
             type="submit"
-            disabled={!isDestinationValid} // Opcional: deshabilitar si no es válido
-          >
+            disabled={!isDestinationValid}>
             Next
           </Button>
         </div>
