@@ -1,9 +1,8 @@
 export interface FlightData {
   id: string;
   destination: string;
-  economy: number;
-  business: number;
-  first: number;
+  class: 'Economic | Business | First Class';
+  priceUSD: number;
 }
 
 export interface TravelInfo {

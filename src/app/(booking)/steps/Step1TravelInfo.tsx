@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DestinationAutocomplete from '@/app/components/common/DestinationAutocomplete';
 import FlightClassSelector from '@/app/components/common/FlightClassSelector';
 import Button from '@/app/components/ui/Button';
@@ -18,12 +18,26 @@ export default function Step1TravelInfo({
     data.departureDate
   );
   const [returnDate, setReturnDate] = useState<Date | null>(data.returnDate);
+  const [isDestinationValid, setIsDestinationValid] = useState(false);
+  const [showDestinationError, setShowDestinationError] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validación del destino
+    if (!data.destination?.trim()) {
+      setShowDestinationError(true);
+      return;
+    }
+
     onUpdate({ departureDate, returnDate });
     onNext();
   };
+
+  // Opcional: validación en tiempo real
+  useEffect(() => {
+    setIsDestinationValid(!!data.destination?.trim());
+  }, [data.destination]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -38,17 +52,25 @@ export default function Step1TravelInfo({
         </div>
 
         <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
+          <div className="text-gray-900">
+            <label className="block text-sm font-medium text-gray-800">
               Destination
             </label>
             <DestinationAutocomplete
               value={data.destination}
-              onChange={(value) => onUpdate({ destination: value })}
+              onChange={(value) => {
+                onUpdate({ destination: value });
+                setShowDestinationError(false); // Resetear error al cambiar
+              }}
             />
+            {showDestinationError && (
+              <p className="mt-1 text-sm text-red-600">
+                Please select a destination
+              </p>
+            )}
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 py-4 gap-4 sm:grid-cols-2 text-gray-800">
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Departure Date
@@ -64,7 +86,7 @@ export default function Step1TravelInfo({
                   )
                 }
                 min={new Date().toISOString().split('T')[0]}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 py-4 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               />
             </div>
@@ -86,7 +108,7 @@ export default function Step1TravelInfo({
                     ? departureDate.toISOString().split('T')[0]
                     : new Date().toISOString().split('T')[0]
                 }
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 py-4 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               />
             </div>
@@ -99,7 +121,12 @@ export default function Step1TravelInfo({
         </div>
 
         <div className="flex justify-end pt-4">
-          <Button type="submit">Next</Button>
+          <Button
+            type="submit"
+            disabled={!isDestinationValid} // Opcional: deshabilitar si no es válido
+          >
+            Next
+          </Button>
         </div>
       </div>
     </form>
