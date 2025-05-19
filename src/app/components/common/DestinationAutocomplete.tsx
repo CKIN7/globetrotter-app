@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FlightData } from '@/lib/types';
+import { FlightData } from '@/app/lib/types';
 
 export default function DestinationAutocomplete({
   value,
