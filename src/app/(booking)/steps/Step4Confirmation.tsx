@@ -1,43 +1,19 @@
-// steps/Step4Confirmation.tsx
 'use client';
 
 import Button from '@/app/components/ui/Button';
 import { calculateAge } from '@/app/lib/utils';
+import { BookingState } from '@/app/lib/types'; // Import the BookingState type
+import { calculateTotal } from '@/app/lib/calculateTotal';
 
 export default function Step4Confirmation({
   state,
   onConfirm,
   onPrev,
 }: {
-  state: any;
+  state: BookingState; // Explicitly type the 'state' prop as BookingState
   onConfirm: () => void;
   onPrev: () => void;
 }) {
-  const calculateTotal = () => {
-    let total = 0;
-
-    // Base flight price (simplified - in a real app, we'd look up the actual price)
-    const basePrice =
-      state.travelInfo.flightClass === 'economy'
-        ? 300
-        : state.travelInfo.flightClass === 'business'
-        ? 600
-        : 1000;
-    total += basePrice * state.numTravelers;
-
-    // Pets
-    total += state.hasPets ? state.numPets * 100 : 0;
-
-    // Extra luggage
-    total += state.hasExtraLuggage ? state.numExtraLuggage * 50 : 0;
-
-    // Services
-    total += state.travelInsurance ? 75 : 0;
-    total += state.preferredSeats ? 30 * state.numTravelers : 0;
-
-    return total;
-  };
-
   return (
     <div className="space-y-6">
       <div>
@@ -54,17 +30,17 @@ export default function Step4Confirmation({
           <h3 className="font-medium text-gray-900 mb-3">Trip Details</h3>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <div>
-              <p className="text-sm text-gray-500">Destination</p>
+              <p className="text-sm text-gray-00">Destination</p>
               <p className="font-medium">{state.travelInfo.destination}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Flight Class</p>
+              <p className="text-sm text-gray-800">Flight Class</p>
               <p className="font-medium capitalize">
                 {state.travelInfo.flightClass}
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Departure Date</p>
+              <p className="text-sm text-gray-800">Departure Date</p>
               <p className="font-medium">
                 {state.travelInfo.departureDate?.toLocaleDateString() ||
                   'Not selected'}
@@ -86,7 +62,7 @@ export default function Step4Confirmation({
             {state.numTravelers} traveler{state.numTravelers > 1 ? 's' : ''}
           </p>
           <div className="space-y-3">
-            {state.travelers.map((traveler: any, index: number) => (
+            {state.travelers.map((traveler, index) => (
               <div
                 key={index}
                 className="border-t pt-3">
@@ -159,7 +135,7 @@ export default function Step4Confirmation({
         <div className="border-t pt-4">
           <div className="flex justify-between items-center">
             <p className="font-medium">Total</p>
-            <p className="text-xl font-bold">${calculateTotal()}</p>
+            <p className="text-xl font-bold">${calculateTotal(state)}</p>
           </div>
         </div>
       </div>

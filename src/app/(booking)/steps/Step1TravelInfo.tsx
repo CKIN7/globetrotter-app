@@ -96,7 +96,12 @@ export default function Step1TravelInfo({
       return;
     }
 
-    onUpdate({ departureDate, returnDate, flightClass: data.flightClass }); // Ensure flightClass is included
+    onUpdate({
+      departureDate,
+      returnDate,
+      flightClass: data.flightClass,
+      flightPrices: data.flightPrices,
+    }); // Ensure flightClass is included
     onNext();
   };
 
@@ -178,7 +183,9 @@ export default function Step1TravelInfo({
 
           <FlightClassSelector
             value={data.flightClass}
-            onChange={(value) => onUpdate({ flightClass: value })}
+            onChange={(value, price) =>
+              onUpdate({ flightClass: value, flightPrices: price })
+            }
             flightPrices={flightPrices}
           />
         </div>

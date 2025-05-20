@@ -10,7 +10,7 @@ const flightClassesConfig = [
 
 interface FlightClassSelectorProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: string, price: string) => void;
   flightPrices?: FlightData[];
 }
 
@@ -29,16 +29,14 @@ export default function FlightClassSelector({
           const priceInfo = flightPrices?.find((flight) =>
             flight.class.toLowerCase().includes(flightClassConfig.id)
           );
-          console.log(flightPrices, 'prices');
 
           const priceUSD = priceInfo
             ? `$${priceInfo.priceUSD}`
             : 'Price not available.';
-
           return (
             <div
               key={flightClassConfig.id}
-              onClick={() => onChange(flightClassConfig.id)}
+              onClick={() => onChange(flightClassConfig.id, priceUSD)}
               className={`cursor-pointer rounded-lg border p-4 ${
                 value === flightClassConfig.id
                   ? 'border-blue-500 bg-blue-50'
@@ -49,7 +47,7 @@ export default function FlightClassSelector({
                   type="radio"
                   className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                   checked={value === flightClassConfig.id}
-                  onChange={() => onChange(flightClassConfig.id)}
+                  onChange={() => onChange(flightClassConfig.id, priceUSD)}
                 />
                 <label className="ml-3 block text-sm font-medium text-gray-700">
                   {flightClassConfig.name}

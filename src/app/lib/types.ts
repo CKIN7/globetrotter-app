@@ -10,6 +10,7 @@ export interface TravelInfo {
   departureDate: Date | null;
   returnDate: Date | null;
   flightClass: string;
+  flightPrices: number;
 }
 
 export interface Traveler {
@@ -33,4 +34,6 @@ export interface BookingState {
   preferredSeats: boolean;
   specialAssistance: boolean;
   specialAssistanceNote: string;
+  priceUSD: number;
+  flightPrices: string;
 }
