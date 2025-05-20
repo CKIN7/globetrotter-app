@@ -30,25 +30,27 @@ export default function Step4Confirmation({
           <h3 className="font-medium text-gray-900 mb-3">Trip Details</h3>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <div>
-              <p className="text-sm text-gray-00">Destination</p>
-              <p className="font-medium">{state.travelInfo.destination}</p>
+              <p className="text-sm text-gray-800">Destination</p>
+              <p className="font-medium text-gray-800">
+                {state.travelInfo.destination}
+              </p>
             </div>
             <div>
               <p className="text-sm text-gray-800">Flight Class</p>
-              <p className="font-medium capitalize">
+              <p className="font-medium capitalize text-gray-800">
                 {state.travelInfo.flightClass}
               </p>
             </div>
             <div>
               <p className="text-sm text-gray-800">Departure Date</p>
-              <p className="font-medium">
+              <p className="font-medium text-gray-800">
                 {state.travelInfo.departureDate?.toLocaleDateString() ||
                   'Not selected'}
               </p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Return Date</p>
-              <p className="font-medium">
+              <p className="font-medium text-gray-800">
                 {state.travelInfo.returnDate?.toLocaleDateString() ||
                   'Not selected'}
               </p>
@@ -58,7 +60,7 @@ export default function Step4Confirmation({
 
         <div className="border rounded-lg p-4">
           <h3 className="font-medium text-gray-900 mb-3">Travelers</h3>
-          <p className="text-sm text-gray-500 mb-2">
+          <p className="text-sm text-gray-800 mb-2">
             {state.numTravelers} traveler{state.numTravelers > 1 ? 's' : ''}
           </p>
           <div className="space-y-3">
@@ -66,15 +68,15 @@ export default function Step4Confirmation({
               <div
                 key={index}
                 className="border-t pt-3">
-                <p className="font-medium">
+                <p className="font-medium text-gray-800">
                   {traveler.fullName || `Traveler ${index + 1}`}
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-700">
                   {traveler.birthDate
                     ? `${calculateAge(traveler.birthDate)} years old`
                     : 'Age not specified'}
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-700">
                   {traveler.documentType}: {traveler.documentNumber}
                 </p>
               </div>
@@ -108,7 +110,7 @@ export default function Step4Confirmation({
             <h3 className="font-medium text-gray-900 mb-3">
               Additional Services
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-2 text-gray-900">
               {state.travelInsurance && (
                 <p className="text-sm">Travel Insurance: $75</p>
               )}
@@ -122,7 +124,7 @@ export default function Step4Confirmation({
                 <div>
                   <p className="text-sm">Special Assistance</p>
                   {state.specialAssistanceNote && (
-                    <p className="text-sm text-gray-500 italic">
+                    <p className="text-sm text-gray-600 italic">
                       Note: {state.specialAssistanceNote}
                     </p>
                   )}
@@ -134,8 +136,10 @@ export default function Step4Confirmation({
 
         <div className="border-t pt-4">
           <div className="flex justify-between items-center">
-            <p className="font-medium">Total</p>
-            <p className="text-xl font-bold">${calculateTotal(state)}</p>
+            <p className="font-medium text-gray-900">Total</p>
+            <p className="text-xl font-bold text-gray-900">
+              ${calculateTotal(state)}
+            </p>
           </div>
         </div>
       </div>

@@ -145,7 +145,7 @@ export default function Step2TravelerInfo({
 
             <div>
               <label className="flex items-center space-x-3">
-                <span className="text-sm font-medium text-gray-700">
+                <span className="text-sm font-medium text-gray-900">
                   Need extra luggage?
                 </span>
                 <input
@@ -154,12 +154,12 @@ export default function Step2TravelerInfo({
                   onChange={(e) =>
                     onUpdate({ hasExtraLuggage: e.target.checked })
                   }
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="h-4 w-4 rounded text-gray-800 border-gray-300  focus:ring-blue-500"
                 />
               </label>
               {state.hasExtraLuggage && (
                 <div className="mt-2">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-900">
                     Number of extra luggage ($50 each)
                   </label>
                   <input
@@ -171,7 +171,7 @@ export default function Step2TravelerInfo({
                         numExtraLuggage: parseInt(e.target.value) || 0,
                       })
                     }
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    className="mt-1 block w-full text-gray-900 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                   />
                 </div>
               )}

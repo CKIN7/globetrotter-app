@@ -27,8 +27,9 @@ export default function TravelerForm({
           type="text"
           value={traveler.fullName}
           onChange={(e) => onChange('fullName', e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          className="mt-1 pl-2 py-2 w-full text-gray-900 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
           required
+          placeholder="Enter your full name"
         />
       </div>
 
@@ -44,19 +45,19 @@ export default function TravelerForm({
               : ''
           }
           onChange={(e) => onChange('birthDate', new Date(e.target.value))}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          className="mt-1 pl-2 block py-2 w-full text-gray-900 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-800">
           Document Type
         </label>
         <select
           value={traveler.documentType}
           onChange={(e) => onChange('documentType', e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          className="mt-1 pl-2 py-2 block w-full text-gray-900 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
           required>
           {documentTypes.map((type) => (
             <option
@@ -76,8 +77,9 @@ export default function TravelerForm({
           type="text"
           value={traveler.documentNumber}
           onChange={(e) => onChange('documentNumber', e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          className="mt-1 pl-2 py-2 block w-full text-gray-900 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
           required
+          placeholder="Enter your ID number"
         />
       </div>
     </div>
