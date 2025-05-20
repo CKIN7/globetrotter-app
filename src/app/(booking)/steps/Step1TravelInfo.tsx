@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import DestinationAutocomplete from '@/app/components/common/DestinationAutocomplete';
 import FlightClassSelector from '@/app/components/common/FlightClassSelector';
 import Button from '@/app/components/ui/Button';
@@ -26,62 +26,44 @@ export default function Step1TravelInfo({
   const [showDestinationError, setShowDestinationError] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const [flightPrices, setFlightPrices] = useState<FlightData[]>([]);
-  const [isLoadingPrices, setIsLoadingPrices] = useState(false);
 
-  const fetchSuggestions = async (query: string) => {
+  const fetchDestinationsAndPrices = useCallback(async (query: string) => {
     if (query.length > 2) {
       setIsLoadingSuggestions(true);
       try {
         const response = await fetch(`/api/flights?query=${query}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const flightData: FlightData[] = await response.json();
         setDestinationSuggestions(flightData);
-        // Optionally, you could also fetch prices here if your API returns them together
-        setFlightPrices(flightData);
+        setFlightPrices(flightData); // Assuming the API returns both in the same response
       } catch (error) {
-        console.error('Error fetching suggestions:', error);
+        console.error('Error fetching suggestions and prices:', error);
         setDestinationSuggestions([]);
+        setFlightPrices([]);
       } finally {
         setIsLoadingSuggestions(false);
       }
     } else {
       setDestinationSuggestions([]);
-    }
-  };
-
-  const fetchFlightPrices = async (destination: string) => {
-    if (destination) {
-      setIsLoadingPrices(true);
-      try {
-        const response = await fetch(
-          `/api/flights/prices?destination=${destination}`
-        );
-        const pricesData: FlightData[] = await response.json();
-        setFlightPrices(pricesData);
-      } catch (error) {
-        console.error('Error fetching flight prices:', error);
-        setFlightPrices([]);
-      } finally {
-        setIsLoadingPrices(false);
-      }
-    } else {
       setFlightPrices([]);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (data.destination) {
-      fetchSuggestions(data.destination);
-      fetchFlightPrices(data.destination); // Fetch prices when destination changes
+      fetchDestinationsAndPrices(data.destination);
     } else {
-      setFlightPrices([]); // Clear prices if no destination
+      setDestinationSuggestions([]);
+      setFlightPrices([]);
     }
-  }, [data.destination]);
+  }, [data.destination, fetchDestinationsAndPrices]);
 
   const handleDestinationChange = (value: string) => {
     onUpdate({ destination: value });
     setShowDestinationError(false);
-    fetchSuggestions(value);
-    fetchFlightPrices(value); // Fetch prices when destination input changes
+    fetchDestinationsAndPrices(value);
   };
 
   const handleDestinationValidationChange = (isValid: boolean) => {
@@ -100,8 +82,8 @@ export default function Step1TravelInfo({
       departureDate,
       returnDate,
       flightClass: data.flightClass,
-      flightPrices: data.flightPrices,
-    }); // Ensure flightClass is included
+      flightPrices: flightPrices, // Use the fetched flight prices
+    });
     onNext();
   };
 
@@ -183,9 +165,7 @@ export default function Step1TravelInfo({
 
           <FlightClassSelector
             value={data.flightClass}
-            onChange={(value, price) =>
-              onUpdate({ flightClass: value, flightPrices: price })
-            }
+            onChange={(value, price) => onUpdate({ flightClass: value })}
             flightPrices={flightPrices}
           />
         </div>

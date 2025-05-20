@@ -5,7 +5,7 @@ import { FlightData } from '@/app/lib/types';
 const flightClassesConfig = [
   { id: 'economy', name: 'Economy', description: 'Standard seating' },
   { id: 'business', name: 'Business', description: 'Extra legroom' },
-  { id: 'first', name: 'First Class', description: 'Luxury experience' },
+  { id: 'first class', name: 'First Class', description: 'Luxury experience' },
 ];
 
 interface FlightClassSelectorProps {
@@ -29,6 +29,7 @@ export default function FlightClassSelector({
           const priceInfo = flightPrices?.find((flight) =>
             flight.class.toLowerCase().includes(flightClassConfig.id)
           );
+          console.log(priceInfo, 'prices');
 
           const priceUSD = priceInfo
             ? `$${priceInfo.priceUSD}`

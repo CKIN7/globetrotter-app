@@ -1,7 +1,7 @@
 export interface FlightData {
   id: string;
   destination: string;
-  class: 'Economic | Business | First Class';
+  class: 'Economic | Business | FirstClass';
   priceUSD: number;
 }
 
