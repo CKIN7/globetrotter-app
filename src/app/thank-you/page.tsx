@@ -16,14 +16,14 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({
     <div style={styles.container}>
       <h1 style={styles.heading}>Thank You for Your Booking!</h1>
       <p style={styles.paragraph}>
-        Your booking has been successfully received and confirmed. We're excited
-        to have you!
+        Your booking has been successfully received and confirmed. We&apos;re
+        excited to have you!
       </p>
 
       <div style={styles.section}>
-        <h2 style={styles.subHeading}>What's Next?</h2>
+        <h2 style={styles.subHeading}>What&apos;s Next?</h2>
         <p style={styles.paragraph}>
-          You'll receive a confirmation email shortly at{' '}
+          You&apos;ll receive a confirmation email shortly at{' '}
           <strong style={styles.highlight}>{customerEmail}</strong> with all the
           details of your booking.
           {bookingReference && (
@@ -37,7 +37,7 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({
         </p>
         <p style={styles.paragraph}>
           In the meantime, if you have any questions or need to make changes to
-          your booking, don't hesitate to contact us directly at{' '}
+          your booking, don&apos;t hesitate to contact us directly at{' '}
           <strong style={styles.highlight}>{contactNumber}</strong> or reply to
           your confirmation email.
         </p>
@@ -69,12 +69,12 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   heading: {
     fontSize: '2.8em',
-    color: '#28a745', // Green for success
+    color: '#28a745',
     marginBottom: '20px',
   },
   subHeading: {
     fontSize: '1.8em',
-    color: '#0056b3', // A nice blue
+    color: '#0056b3',
     marginTop: '30px',
     marginBottom: '15px',
   },
@@ -84,7 +84,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     marginBottom: '15px',
   },
   highlight: {
-    color: '#d9534f', // A soft red to draw attention
+    color: '#d9534f',
     fontWeight: 'bold',
   },
   section: {
