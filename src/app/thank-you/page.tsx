@@ -1,17 +1,9 @@
+'use client';
+
 import Link from 'next/link';
 import React from 'react';
 
-interface ThankYouPageProps {
-  customerEmail: string;
-  bookingReference?: string;
-  contactNumber: string;
-}
-
-const ThankYouPage: React.FC<ThankYouPageProps> = ({
-  customerEmail,
-  bookingReference,
-  contactNumber,
-}) => {
+const ThankYouClientPage = ({}) => {
   return (
     <div style={styles.container}>
       <h1 style={styles.heading}>Thank You for Your Booking!</h1>
@@ -24,22 +16,20 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({
         <h2 style={styles.subHeading}>What&apos;s Next?</h2>
         <p style={styles.paragraph}>
           You&apos;ll receive a confirmation email shortly at{' '}
-          <strong style={styles.highlight}>{customerEmail}</strong> with all the
-          details of your booking.
-          {bookingReference && (
-            <>
-              {' '}
-              Your booking reference number is{' '}
-              <strong style={styles.highlight}>{bookingReference}</strong>.
-            </>
-          )}
+          <strong style={styles.highlight}></strong> with all the details of
+          your booking.
+          <>
+            {' '}
+            Your booking reference number is{' '}
+            <strong style={styles.highlight}></strong>.
+          </>
           Please keep this email for your records.
         </p>
         <p style={styles.paragraph}>
           In the meantime, if you have any questions or need to make changes to
           your booking, don&apos;t hesitate to contact us directly at{' '}
-          <strong style={styles.highlight}>{contactNumber}</strong> or reply to
-          your confirmation email.
+          <strong style={styles.highlight}></strong> or reply to your
+          confirmation email.
         </p>
       </div>
 
@@ -100,4 +90,4 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
 };
 
-export default ThankYouPage;
+export default ThankYouClientPage;
