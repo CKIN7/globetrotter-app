@@ -37,7 +37,7 @@ export default function Step1TravelInfo({
         }
         const flightData: FlightData[] = await response.json();
         setDestinationSuggestions(flightData);
-        setFlightPrices(flightData); // Assuming the API returns both in the same response
+        setFlightPrices(flightData);
       } catch (error) {
         console.error('Error fetching suggestions and prices:', error);
         setDestinationSuggestions([]);
@@ -112,11 +112,11 @@ export default function Step1TravelInfo({
               onValidationChange={handleDestinationValidationChange}
               required
             />
-            {showDestinationError && (
+            {/* {showDestinationError && (
               <p className="mt-1 text-sm text-red-600">
                 Please select a destination
               </p>
-            )}
+            )} */}
           </div>
 
           <div className="grid grid-cols-1 py-4 gap-4 sm:grid-cols-2 text-gray-800">

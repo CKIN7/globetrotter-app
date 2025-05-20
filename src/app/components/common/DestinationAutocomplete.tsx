@@ -76,9 +76,9 @@ export default function DestinationAutocomplete({
         onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
         required={required}
       />
-      {required && !isValid && value === '' && (
+      {/* {required && !isValid && value === '' && (
         <p className="mt-1 text-sm text-red-600">Please select a destination</p>
-      )}
+      )} */}
       {internalIsLoading && (
         <div className="absolute inset-y-0 right-0 flex items-center pr-3">
           <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>

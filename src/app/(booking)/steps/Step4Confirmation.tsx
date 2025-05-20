@@ -2,18 +2,24 @@
 
 import Button from '@/app/components/ui/Button';
 import { calculateAge } from '@/app/lib/utils';
-import { BookingState } from '@/app/lib/types'; // Import the BookingState type
+import { BookingState } from '@/app/lib/types';
 import { calculateTotal } from '@/app/lib/calculateTotal';
+import { useRouter } from 'next/navigation';
 
-export default function Step4Confirmation({
-  state,
-  onConfirm,
-  onPrev,
-}: {
-  state: BookingState; // Explicitly type the 'state' prop as BookingState
+interface Props {
+  state: BookingState;
   onConfirm: () => void;
   onPrev: () => void;
-}) {
+}
+
+export default function Step4Confirmation({ state, onConfirm, onPrev }: Props) {
+  const router = useRouter();
+
+  const handleConfirm = () => {
+    onConfirm();
+    router.push('/thank-you');
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -153,7 +159,7 @@ export default function Step4Confirmation({
         </Button>
         <Button
           type="button"
-          onClick={onConfirm}>
+          onClick={handleConfirm}>
           Confirm Booking
         </Button>
       </div>
