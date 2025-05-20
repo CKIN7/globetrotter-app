@@ -10,8 +10,8 @@ export default function Step2TravelerInfo({
   onNext,
   onPrev,
 }: {
-  state;
-  onUpdate: (updates) => void;
+  state: unknown;
+  onUpdate: (updates: unknown) => void;
   onNext: () => void;
   onPrev: () => void;
 }) {
@@ -38,7 +38,11 @@ export default function Step2TravelerInfo({
     }
   }, [state.numTravelers, state.travelers]);
 
-  const handleTravelerChange = (index: number, field: string, value: any) => {
+  const handleTravelerChange = (
+    index: number,
+    field: string,
+    value: unknown
+  ) => {
     const updatedTravelers = [...travelers];
     updatedTravelers[index] = { ...updatedTravelers[index], [field]: value };
     setTravelers(updatedTravelers);
