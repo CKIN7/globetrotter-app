@@ -23,7 +23,7 @@ export default function Step1TravelInfo({
     FlightData[]
   >([]);
   const [isDestinationValid, setIsDestinationValid] = useState(false);
-  const [showDestinationError, setShowDestinationError] = useState(false);
+  const [, setShowDestinationError] = useState(false);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const [flightPrices, setFlightPrices] = useState<FlightData[]>([]);
 
@@ -165,7 +165,7 @@ export default function Step1TravelInfo({
 
           <FlightClassSelector
             value={data.flightClass}
-            onChange={(value, price) => onUpdate({ flightClass: value })}
+            onChange={(value) => onUpdate({ flightClass: value })}
             flightPrices={flightPrices}
           />
         </div>

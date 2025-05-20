@@ -10,8 +10,8 @@ export default function Step2TravelerInfo({
   onNext,
   onPrev,
 }: {
-  state: any;
-  onUpdate: (updates: any) => void;
+  state;
+  onUpdate: (updates) => void;
   onNext: () => void;
   onPrev: () => void;
 }) {
